@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="create.html">Criar novo funcionário</a>
+<ul id="lista-funcionario">
+
+</ul>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function (event) {
+        fetch('http://localhost:4000')
+            .then(data => data.json())
+            .then((data) => {
+                let ul = document.getElementById('lista-funcionario')
+                data.forEach((item) => {
+                    let li = document.createElement('li')
+                    const text = 'Nome: ' + item.name + ' | Cargo: ' + item.cargo + ' | Salário: ' + item.salario
+                    li.appendChild(document.createTextNode(text))
+                    ul.appendChild(li)
+                })
+            })
+    })
+</script>
+</body>
+</html>

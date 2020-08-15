@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar novo funcionário</title>
+</head>
+<body>
+<form id="form-cadastrar-funcionario" method="post" action="http://127.0.0.1:4000/">
+    <input type="text" name="name" placeholder="Nome do funcionário"/>
+    <input type="email" name="email" placeholder="E-mail do funcionário"/>
+    <input type="number" name="salario" placeholder="Salário do funcionário"/>
+    <input type="text" name="cargo" placeholder="Cargo do funcionário"/>
+
+    <input type="submit" value="Salvar funcionário"/>
+</form>
+
+<div id="funcionario-criado">
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+
+<script>
+    $('#form-cadastrar-funcionario').on('submit', function (event) {
+        event.preventDefault()
+        const form = $(event.target)
+        const values = form.serialize()
+
+        $.ajax({
+            type: form.attr('method'),
+            url: form.attr('action'),
+            data: values,
+            dataType: "json",
+            success: function(data) {
+                const texto = "Nome: " + data.name + ' | E-mail: ' + data.email + ' | Data de criação: ' + data.createdAt
+                $('#funcionario-criado').html(texto)
+            },
+            error: function(error) {
+                console.log(error)
+            }
+        });
+
+        // const inputs = form.find('input')
+        // let values = []
+        // inputs.each(function (index, input) {
+        //     const localInput = $(input)
+        //     values.push([
+        //         localInput.attr('name'), localInput.val()
+        //     ])
+        // })
+
+
+    })
+
+    // document.getElementById('form-cadastrar-funcionario').addEventListener('submit', function (event) {
+    //     console.log('oi')
+    // })
+</script>
+</body>
+</html>
