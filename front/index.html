@@ -6,12 +6,55 @@
 </head>
 <body>
 <a href="create.html">Criar novo funcionário</a>
+<button id="pesquisar-funcionaro">Pesquisar funcionário</button>
 <ul id="lista-funcionario">
 
 </ul>
 <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 <script>
+    document.getElementById('pesquisar-funcionaro').onclick = () => {
+        swal({
+            text: 'Pesquise os funcionários pelo nome',
+            content: "input",
+            button: {
+                text: "Pesquisar!",
+                closeModal: false,
+            },
+        })
+            .then(name => {
+                if (!name) throw null;
+
+                return fetch(`http://localhost:4000/search?search=` + name);
+            })
+            .then(results => {
+                return results.json();
+            })
+            .then(funcionarios => {
+                let textoParaMostrar = ''
+                funcionarios.forEach(funcionaro => {
+                    textoParaMostrar += 'Funcionário: ' + funcionaro.name + ' <br> '
+                })
+                if(funcionarios.length === 0) {
+                    textoParaMostrar = 'Não foi encontrado nada'
+                }
+                swal({
+                    title: "Resultados:",
+                    text: textoParaMostrar,
+                });
+            })
+            .catch(err => {
+                if (err) {
+                    swal("Oh noes!", "The AJAX request failed!", "error");
+                } else {
+                    swal.stopLoading();
+                    swal.close();
+                }
+            });
+    }
+
     $(document).ready(function (event) {
         fetch('http://localhost:4000')
             .then(data => data.json())

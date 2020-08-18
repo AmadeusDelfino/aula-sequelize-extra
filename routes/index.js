@@ -6,5 +6,6 @@ router.get('/', UsersController.all)
 router.post('/', UsersController.create)
 router.delete('/:id', UsersController.delete)
 router.put('/:id', UsersController.update)
+router.get('/search', UsersController.search)
 
 module.exports = router;
