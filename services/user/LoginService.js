@@ -1,4 +1,4 @@
-const {users} = require('../models')
+const {users} = require('../../models')
 const bcrypt = require('bcrypt')
 module.exports = {
     login: async (username, password) => {
