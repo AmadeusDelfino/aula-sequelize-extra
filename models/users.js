@@ -8,6 +8,15 @@ module.exports = (sequelize, DataType) => {
     updatedAt: DataType.DATE,
   })
 
+  User.associate = (models) => {
+    User.belongsToMany(
+      models.products,
+      {
+        through: models.sales,
+        foreignKey: 'users_id'
+      })
+  }
+
   return User
 }
 
